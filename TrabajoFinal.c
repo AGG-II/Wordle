@@ -24,22 +24,22 @@
 //esta macro genera un numero aleatorio teniendo en cuenta la cantidad de palabras que hay en el arhcivo
 #define GNUM() (rand() % CANTIDAD_DE_PALABRAS) + 1
 
-struct Resultado {
+typedef struct {
 
 	char* palabra;
 	int puntaje;
 	int acerto;
-};
+}Resultado;
 
 void getWordInLine(char*, int, char*);
 void getAmountOfPlays(int*);
 void iniciar_sesion(int*);
 void elegir_palabra(int*, char*, int*);
 void jugar(char*, int*, int);
-struct Resultado intentar(char*);
-void evaluar(char[][LONGITUD_DE_LAS_PALABRAS+1], char*, char*, int);
+Resultado intentar(char*);
+void evaluar(char*, char*, char*);
 int consultar();
-struct Resultado puntuar(char[][LONGITUD_DE_LAS_PALABRAS + 1], int, int, char*);
+void puntuar(char*, char*);
 
 int main() {
      srand(gsemilla());
@@ -47,7 +47,7 @@ int main() {
      // acordate de liberar la memoria y de borrar esta linea cuando termines con el programa
      // (o dejala a modo de chiste cuando le muestres el codigo al profesor)
      
-     getAmountOfPlays(cant);
+     getAmountOfPlays(cant);//pedimos la cantidad de veces que se va a jugar
      borrar_pantalla();
      iniciar_sesion(cant);
      free(cant);
@@ -83,7 +83,7 @@ void iniciar_sesion(int* partidas) {
 //esta funcion recibe una lista de posiciones prohibidas que ya aparecieron y devuelve un numero que no pertenezca
 //a la lista y que este dentro de la cantidad de palabras disponibles
 void elegir_palabra(int prohibidas[], char* palabra, int *Pjugadas){
-        int pos = GNUM() , i;
+        int pos = GNUM(), i;
 	for(i=0;i < (*Pjugadas);i++) {
 		//si la lista contiene a ese numero, genera uno nuevo y revisa de nuevo	
 		if(pos == prohibidas[i]) {//Esta linea tira un segmentation fault (por entrar a donde no debe probablemente)
@@ -91,7 +91,7 @@ void elegir_palabra(int prohibidas[], char* palabra, int *Pjugadas){
 			i = 0;
 		}
 	}
-	prohibidas[i]= pos;
+	prohibidas[i]= pos;//la nueva posicion se agrega a las prohibidas
 	getWordInLine(NOMBRE_DE_ARCHIVO, pos, palabra);
 	return ;	
 }
@@ -106,51 +106,56 @@ void jugar(char* palabra, int *jugadas, int partidas) {
 }
 
 //en esta parte es cuando comienza la partida en si, toma un intento y devuelve un string que marca las posiciones correctas
-struct Resultado intentar(char* palabra) {
+struct Resultado intentar(char* palabra, Resultado * resultadoP) {
 
 	char intento[CANTIDAD_DE_INTENTOS_MAXIMA][LONGITUD_DE_LAS_PALABRAS + 1];
-	int acerto, i;
-	char evaluacion[LONGITUD_DE_LAS_PALABRAS];
+	int i;
+	char evaluacion[LONGITUD_DE_LAS_PALABRAS],comoVa[LONGITUD_DE_LAS_PALABRAS];
+	for(i = 0; i != LONGITUD_DE_LAS_PALABRAS; i++) {
+	comoVa[i] = '_';
+	}//llenamos todos los espacios del array con el caracter "_"
+	resultadoP.palabra = palabra;
+	resultadoP.puntaje = 0;
 	for(i = 0; i < CANTIDAD_DE_INTENTOS_MAXIMA; i++){
 	printf(">");
 	scanf("%s", intento[i]);
-	evaluar(intento,palabra,evaluacion,i);
-	printf(">%s\n", evaluacion);//imprime el resultado
-	if(!(acerto = strcmp(evaluacion, "vvvvv"))){//comprendo que lo ideal seria comparar la palabra con el intento, pero por algun motivo eso no esta funcionando actualmente (a mejorar)
+	evaluar(intento[i],palabra,evaluacion);
+	printf(">%s\n", evaluacion);
+	if(!strcmp(evaluacion, "vvvvv")){//comprendo que lo ideal seria comparar la palabra con el intento, pero por algun motivo eso no esta funcionando actualmente (a mejorar)
 		printf("Acerto!!!\n");
-		return puntuar(intento, i, acerto, palabra);
+		*(resultadoP -> puntaje) += 2000;
+		if(i == 0){
+			*(resultadoP -> puntaje) = 10000;
+			*(resultadoP -> acerto) = 1;
+			//si acerto a la primera devuelve un caso especial de partida perfecta
+		}
+		return resultadoP;
 	}
+	puntuar(evaluacion, comoVa, resultadoP);
 	}
-	return puntuar(intento , i, acerto, palabra);
+	return resultadoP;
 
 }
 
-void evaluar(char intento[][LONGITUD_DE_LAS_PALABRAS + 1], char* palabra, char* evaluacion, int nroI) {
+//esta funcion modifica el string evaluacion para devolver una linea del mapa de la partida
+void evaluar(char* intento, char* palabra, char* evaluacion) {
 
 	int i, j;
 	for(i = 0; i < LONGITUD_DE_LAS_PALABRAS; i++){
-		evaluacion[i] = '_';
+		evaluacion[i] = '_';//primero asumimos que la letra no es correcta
 		for(j = 0; j < LONGITUD_DE_LAS_PALABRAS; j++) {
-			if(intento[nroI][i] == *(palabra + j)) evaluacion[i] = '-';
-			if(intento[nroI][i] == *(palabra + i)) evaluacion[i] = 'v';
+			if(*(intento + i) == *(palabra + j)) evaluacion[i] = '-';//si esta mal colocada
+			if(*(intento + i) == *(palabra + i)) evaluacion[i] = 'v';//si esta bien colocada
 		}
 	}
 	evaluacion[i] = '\0';
 	return;
 }
 
-struct Resultado puntuar(char intentos[][LONGITUD_DE_LAS_PALABRAS + 1], int cantidad, int acerto, char* palabra) {
+void puntuar(char* intento, char* palabra) {
 
 	int i;
-	struct Resultado Pperfecta;
-	Pperfecta.palabra = palabra;
-	Pperfecta.puntaje = 10000;
-	if(!cantidad) return Pperfecta;
-	int puntaje = 5000 - (cantidad * 500);// restamos la cantidad de intentos 
-	puntaje = (2000 * ((acerto? 1:0)));//si acerto le sumamos el puntaje por haberlo echo
-	for(i = 0; i < cantidad; i++){
-	}
-		
+	return;
 }
 
 //preguntamos si la persona quiere seguir jugando
