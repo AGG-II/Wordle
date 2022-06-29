@@ -149,11 +149,8 @@ struct Resultado puntuar(char intentos[][LONGITUD_DE_LAS_PALABRAS + 1], int cant
 	int puntaje = 5000 - (cantidad * 500);// restamos la cantidad de intentos 
 	puntaje = (2000 * ((acerto? 1:0)));//si acerto le sumamos el puntaje por haberlo echo
 	for(i = 0; i < cantidad; i++){
-
-	//comienza la tortura	
 	}
 		
-
 }
 
 //preguntamos si la persona quiere seguir jugando
