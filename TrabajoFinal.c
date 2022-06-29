@@ -68,7 +68,7 @@ void getAmountOfPlays(int* input) {
 //inciar sesion recibe la cantidad de veces que se va a jugar
 void iniciar_sesion(int* partidas) {
      printf("Se van a jugar un total de %d partidas.\n", *partidas);
-     char palabra[6];
+     char palabra[LONGITUD_DE_LAS_PALABRAS + 1];
      int palabrasP[CANTIDAD_DE_PARTIDAS_MAX];//posiciones de palabras que ya salieron
      //int * palabrasP = (int*)malloc(sizeof(int) * (*partidas));
      int  Pjugadas = 0;//cantidad de partidas jugadas
