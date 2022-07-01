@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #define NOMBRE_DE_ARCHIVO  "palabras.txt"
 #define CANTIDAD_DE_PALABRAS 30 
 #define CANTIDAD_DE_PARTIDAS_MAX 8
@@ -43,6 +44,7 @@ void jugar(Resultado*, int*, int);
 void intentar(Resultado*);
 void acerto(char*, Resultado*, int);
 void mostrarCadaPartida(Resultado*, int);
+void mayusculizar(char*);
 int evaluar(Resultado*, char*, char*, char*);
 int consultar();
 
@@ -125,6 +127,7 @@ void  intentar(Resultado * resultadoP) {
 	for(i = 0; i < CANTIDAD_DE_INTENTOS_MAXIMA; i++){
 	printf(">");
 	scanf("%s", intento[i]);
+	mayusculizar(intento[i]);
 	quizasAcerto = evaluar(resultadoP, intento[i], evaluacion,  comoVa);
 	printf(">%s\n", evaluacion);
 	
@@ -186,10 +189,10 @@ int  consultar() {
 	do{
 	printf(">");
 	scanf("%c", &resp);
+	while((c = getchar())!= '\n');
 	if(resp == 'y' || resp == 'Y') {
 		return 1;
 	}
-	while((c = getchar())!= '\n');
 	}while(!(resp == 'N' || resp == 'n' ));
 	return 0;
 }
@@ -226,6 +229,19 @@ void mostrarCadaPartida(Resultado* partidas, int partidasJ) {
 	printf("Presione ENTER para finalizar.\n");
 	while(getchar() != '\n');
 	return;
+}
+
+//Para evitar que marque como error un intento donde todas las letras son minusiculas
+void mayusculizar(char* input) {
+
+	int i;
+	for(i = 0; *(input + i) != '\0'; i++) {
+	
+		*(input + i) = toupper(*(input + i));
+	}
+	
+	return;
+
 }
 
 void getWordInLine(char *fileName, int lineNumber, char *p) {
