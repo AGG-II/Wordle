@@ -11,6 +11,7 @@
 #define PUNTAJE_INICIAL 5000
 #define NO_ACERTO 500
 #define PUNTOS_POR_ACERTAR 2000
+#define PUNTAJE_PERFECTO 10000
 
 //esta macro permite determinar si el sistema operativo tiene acceso a la libreria unistd.h y por lo tanto tiene acceso
 //a la funcion getpid() y si para  poder limpiar la pantalla es necesario utilizar 'cls' en vez de 'clear'
@@ -171,9 +172,9 @@ void acerto(char* evaluacion, Resultado* partida, int NroIntentos) {
 
 	printf("Acerto!!!\n");
 	partida -> puntaje += PUNTOS_POR_ACERTAR;
+	partida -> acerto = 1;
 	if(NroIntentos == 0){//acerto al primer intento?
-		partida -> puntaje = 10000;
-		partida -> acerto = 1;
+		partida -> puntaje = PUNTAJE_PERFECTO;
 	}
 	return;
 }
@@ -195,12 +196,35 @@ int  consultar() {
 
 void mostrarCadaPartida(Resultado* partidas, int partidasJ) {
 
-	int i;
+	int i, prom = 0, Caciertos = 0;
+	int Pmax = (PUNTAJE_INICIAL - (CANTIDAD_DE_INTENTOS_MAXIMA * NO_ACERTO)),Pmin = PUNTAJE_PERFECTO;
+	borrar_pantalla();
 	for(i = 0; i < partidasJ; i++) {//mostrar hasta que se hayan mostrado todas las partidas
 		
 		printf("Partida Nro %i\nPalabra:%s\nPuntaje:%i\n\n",i+1,(partidas + i) -> palabra,(partidas + i) -> puntaje);
-	
+		if((partidas + i) -> puntaje > Pmax) Pmax = (partidas + i) -> puntaje;
+		if((partidas + i) -> puntaje < Pmin) Pmin = (partidas + i) -> puntaje;
+		if((partidas + i) -> acerto) {
+		prom += (partidas + i) -> puntaje;
+		Caciertos++;
+		}
 	}
+	getchar();
+	printf("\nPresione ENTER para continuar...");
+	while(getchar()!= '\n');
+	borrar_pantalla();	
+	printf("La/s mejor/es partida/s:\n");
+	for(i = 0; i < partidasJ; i++)
+		if((partidas + i) -> puntaje == Pmax)
+		printf("Partida Nro %i\nPalabra:%s\nPuntaje:%i\n\n",i+1,(partidas + i) -> palabra,(partidas + i) -> puntaje);
+	
+	printf("La/s peor/es partida/s:\n");
+	for(i = 0; i < partidasJ; i++)
+		if((partidas + i) -> puntaje == Pmin)
+		printf("Partida Nro %i\nPalabra:%s\nPuntaje:%i\n\n",i+1,(partidas + i) -> palabra,(partidas + i) -> puntaje);
+	printf("El puntaje promedio de las partidas ganadas es %.2f\n",(float)prom/Caciertos);
+	printf("Presione ENTER para finalizar.\n");
+	while(getchar() != '\n');
 	return;
 }
 
