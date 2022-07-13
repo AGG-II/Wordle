@@ -4,62 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#define NOMBRE_DE_ARCHIVO  "palabras.txt"
-#define CANTIDAD_DE_PALABRAS 30 
-#define CANTIDAD_DE_PARTIDAS_MAX 8
-#define CANTIDAD_DE_INTENTOS_MAXIMA 5
-#define LONGITUD_DE_LAS_PALABRAS 5
-#define PUNTAJE_INICIAL 5000
-#define NO_ACERTO 500
-#define PUNTOS_POR_ACERTAR 2000
-#define PUNTAJE_PERFECTO 10000
 
-//esta macro permite determinar si el sistema operativo tiene acceso a la libreria unistd.h y por lo tanto tiene acceso
-//a la funcion getpid() y si para  poder limpiar la pantalla es necesario utilizar 'cls' en vez de 'clear'
-#if defined(__CYGWIN__ ) || defined(_WIN32) || defined(_WIN64)
-	 #include <time.h>
-	 #define borrar_pantalla() system("cls")
-	 #define gsemilla() time(NULL)
-#else
-	 #include <unistd.h>
-	 #define borrar_pantalla() system("clear")
-	 #define gsemilla() getpid()
+#ifndef __INCLUDE_THIS__
+#define __INCLUDE_THIS__
+#include "constantes.h"
+#include "funciones.h"
 #endif
-
-//esta macro genera un numero aleatorio teniendo en cuenta la cantidad de palabras que hay en el arhcivo
-#define GNUM() (rand() % CANTIDAD_DE_PALABRAS) + 1
-
-typedef struct {
-
-	char palabra[LONGITUD_DE_LAS_PALABRAS + 1];
-	int puntaje;
-	int acerto;
-}Resultado;
-
-void getWordInLine(char*, int, char*);
-void getAmountOfPlays(int*);
-void iniciar_sesion(int);
-void elegir_palabra(int*, char*, int*);
-void jugar(Resultado*, int*, int);
-void intentar(Resultado*);
-void acerto(char*, Resultado*, int);
-void mostrarCadaPartida(Resultado*, int);
-void mayusculizar(char*);
-int evaluar(Resultado*, char*, char*, char*);
-int consultar();
-
-int main() {
-     srand(gsemilla());
-     int *cant = malloc(sizeof(int));
-     // acordate de liberar la memoria y de borrar esta linea cuando termines con el programa
-     // (o dejala a modo de chiste cuando le muestres el codigo al profesor)
-     
-     getAmountOfPlays(cant);//pedimos la cantidad de veces que se va a jugar
-     borrar_pantalla();
-     iniciar_sesion(*cant);
-     free(cant);
-     return 0;
-}    
 
 void getAmountOfPlays(int* input) {
 
@@ -70,24 +20,6 @@ void getAmountOfPlays(int* input) {
 	}while(*input <  0 || *input > CANTIDAD_DE_PARTIDAS_MAX );
 	getchar();
 	return;
-}
-
-//inciar sesion recibe la cantidad de veces que se va a jugar
-void iniciar_sesion(int partidas) {
-     printf("Se van a jugar un total de %d partidas.\n", partidas);
-     int palabrasP[CANTIDAD_DE_PARTIDAS_MAX];//posiciones de palabras que ya salieron
-     //int * palabrasP = (int*)malloc(sizeof(int) * (*partidas));
-     int  Pjugadas = 0;//cantidad de partidas jugadas
-     Resultado RePartidas[CANTIDAD_DE_PARTIDAS_MAX];//Recoleccion de todas las Partidas
-     while(Pjugadas < partidas){
-	elegir_palabra(palabrasP, ((RePartidas + Pjugadas) -> palabra), &Pjugadas);
-	jugar((RePartidas + Pjugadas), &Pjugadas, partidas);
-     }
-     Pjugadas -= partidas;//esta resta no da 0 si se decidio terminar antes la sesion
-     if(!Pjugadas) Pjugadas = partidas; //si la resta anterior da 0 entonces se jugaron todas las partidas esperadas
-     mostrarCadaPartida(RePartidas , Pjugadas);
-     //free(palabrasP);
-     return;
 }
 
 //esta funcion recibe una lista de posiciones prohibidas que ya aparecieron y devuelve un numero que no pertenezca
@@ -104,41 +36,6 @@ void elegir_palabra(int prohibidas[], char* palabra, int *Pjugadas){
 	prohibidas[i]= pos;//la nueva posicion se agrega a las prohibidas
 	getWordInLine(NOMBRE_DE_ARCHIVO, pos, palabra);
 	return ;	
-}
-
-void jugar(Resultado* resultadoP, int *jugadas, int partidas) { 
-	*jugadas = *jugadas + 1; 
-	printf("\nLa palabra es :%s\n",resultadoP -> palabra);
-	printf("Partida numero: %d de %d \n",(*jugadas), partidas);
-	intentar(resultadoP);
-	if(*jugadas != partidas) consultar()? *jugadas:(*jugadas = ((*jugadas) + partidas));
-	return;
-}
-
-//en esta parte es cuando comienza la partida en si, toma un intento y devuelve un string que marca las posiciones correctas
-void  intentar(Resultado * resultadoP) {
-
-	char intento[CANTIDAD_DE_INTENTOS_MAXIMA][LONGITUD_DE_LAS_PALABRAS + 1];
-	int i, quizasAcerto;
-	char evaluacion[LONGITUD_DE_LAS_PALABRAS + 1],comoVa[LONGITUD_DE_LAS_PALABRAS];
-	for(i = 0; i <= LONGITUD_DE_LAS_PALABRAS; i++) comoVa[i] = '_';//llenamos todos los espacios del array
-	resultadoP -> puntaje = PUNTAJE_INICIAL;//inicializamos el puntaje
-	
-	for(i = 0; i < CANTIDAD_DE_INTENTOS_MAXIMA; i++){
-	printf(">");
-	scanf("%s", intento[i]);
-	mayusculizar(intento[i]);
-	quizasAcerto = evaluar(resultadoP, intento[i], evaluacion,  comoVa);
-	printf(">%s\n", evaluacion);
-	
-	if(!quizasAcerto) {
-	acerto(evaluacion, resultadoP, i);
-	return;
-	}
-	resultadoP -> puntaje -= NO_ACERTO;
-	}
-	resultadoP -> acerto = 0;//no acerto la palabra
-	return;
 }
 
 //esta funcion modifica el string evaluacion para devolver una linea del mapa de la partida y calcular el puntaje actual
@@ -181,6 +78,44 @@ void acerto(char* evaluacion, Resultado* partida, int NroIntentos) {
 	}
 	return;
 }
+
+//en esta parte es cuando comienza la partida en si, toma un intento y devuelve un string que marca las posiciones correctas
+void  intentar(Resultado * resultadoP) {
+
+	char intento[CANTIDAD_DE_INTENTOS_MAXIMA][LONGITUD_DE_LAS_PALABRAS + 1];
+	int i, quizasAcerto;
+	char evaluacion[LONGITUD_DE_LAS_PALABRAS + 1],comoVa[LONGITUD_DE_LAS_PALABRAS];
+	for(i = 0; i <= LONGITUD_DE_LAS_PALABRAS; i++) comoVa[i] = '_';//llenamos todos los espacios del array
+	resultadoP -> puntaje = PUNTAJE_INICIAL;//inicializamos el puntaje
+	
+	for(i = 0; i < CANTIDAD_DE_INTENTOS_MAXIMA; i++){
+	printf(">");
+	scanf("%s", intento[i]);
+	mayusculizar(intento[i]);
+	quizasAcerto = evaluar(resultadoP, intento[i], evaluacion,  comoVa);
+	printf(">%s\n", evaluacion);
+	
+	if(!quizasAcerto) {
+	acerto(evaluacion, resultadoP, i);
+	return;
+	}
+	resultadoP -> puntaje -= NO_ACERTO;
+	}
+	resultadoP -> acerto = 0;//no acerto la palabra
+	return;
+}
+
+void jugar(Resultado* resultadoP, int *jugadas, int partidas) { 
+	*jugadas = *jugadas + 1; 
+	printf("\nLa palabra es :%s\n",resultadoP -> palabra);
+	printf("Partida numero: %d de %d \n",(*jugadas), partidas);
+	intentar(resultadoP);
+	if(*jugadas != partidas) consultar()? *jugadas:(*jugadas = ((*jugadas) + partidas));
+	return;
+
+}
+
+
 //preguntamos si la persona quiere seguir jugando
 int  consultar() {
 	char resp,c;
@@ -212,7 +147,6 @@ void mostrarCadaPartida(Resultado* partidas, int partidasJ) {
 		Caciertos++;
 		}
 	}
-	getchar();
 	printf("\nPresione ENTER para continuar...");
 	while(getchar()!= '\n');
 	borrar_pantalla();	
@@ -263,4 +197,34 @@ void getWordInLine(char *fileName, int lineNumber, char *p) {
         }
         i++;
     }
+}
+
+//inciar sesion recibe la cantidad de veces que se va a jugar
+void iniciar_sesion(int partidas) {
+     printf("Se van a jugar un total de %d partidas.\n", partidas);
+     int palabrasP[CANTIDAD_DE_PARTIDAS_MAX];//posiciones de palabras que ya salieron
+     int  Pjugadas = 0;//cantidad de partidas jugadas
+     Resultado RePartidas[CANTIDAD_DE_PARTIDAS_MAX];//Recoleccion de todas las Partidas
+     while(Pjugadas < partidas){
+	elegir_palabra(palabrasP, ((RePartidas + Pjugadas) -> palabra), &Pjugadas);
+	jugar((RePartidas + Pjugadas), &Pjugadas, partidas);
+     }
+     Pjugadas -= partidas;//esta resta no da 0 si se decidio terminar antes la sesion
+     if(!Pjugadas) Pjugadas = partidas; //si la resta anterior da 0 entonces se jugaron todas las partidas esperadas
+     mostrarCadaPartida(RePartidas , Pjugadas);
+     //free(palabrasP);
+     return;
+}
+
+int main() {
+     srand(gsemilla());
+     int *cant = malloc(sizeof(int));
+     // acordate de liberar la memoria y de borrar esta linea cuando termines con el programa
+     // (o dejala a modo de chiste cuando le muestres el codigo al profesor)
+     
+     getAmountOfPlays(cant);//pedimos la cantidad de veces que se va a jugar
+     borrar_pantalla();
+     iniciar_sesion(*cant);
+     free(cant);
+     return 0;
 }

@@ -9,6 +9,7 @@
 \lfoot{Pagina \thepage{} de \pageref{LastPage}}
 
 \begin{document}
+
 	\begin{titlepage}
 		\vspace*{\fill}		
 		\centering
@@ -20,13 +21,25 @@
 	
 	\section*{Documentacion de ejercicio}
 	\begin{itemize}
-		\item Objetivo
-		\item Compilacion y ejecucion
-		\item Un item en esta lista
+		\item Objetivo\hfill 2
+		\item Práctica C\hfill ??
+		\item Algoritmos y funciones importantes\hfill ??
+		\item Compilacion y ejecucion \hfill ??
 	\end{itemize}
-		
-		
+
 	\newpage
 	\thispagestyle{fancy}	
-	
+
+	\section*{Objetivo}
+	El objeto del ejercicio es programar el juego \textbf{WORDLE}.\\
+	El juego consiste en un tablero con espacio para poder poner un máximo de 5 letras en donde el jugador deberá intentar adivinar una palabra oculta escribiendo un intento en dicho tablero.\\
+	Dependiendo de la posición individual de cada letra se le comunicara al jugador si dicha letra está bien posicionada, si pertenece a la palabra o si directamente la letra no está incluida en la palabra secreta. La forma en la que se le comunica al jugador que letras son correctas es de la manera siguiente:
+	\begin{itemize}
+	\item Si la letra ingresada está en la posición correcta debajo de dicha letra aparecerá el caracter "V"
+	\item Si la letra ingresada pertenece a la palabra pero no está en la posición correcta, debajo de la letra aparecerá el caracter "-"
+	\item Si la letra no pertenece a la palabra entonces aparecerá el caracter "\_"
+	\end{itemize}
+	El jugador tiene un máximo de 5 intentos por cada palabra y se le asignará un puntaje en función de la cantidad de intentos, la cantidad de letras acertadas y si se logró descubrir la palabra secreta o nó, siendo el mayor puntaje posible de obtener 10000(diez mil) puntos. La meta del juego es tratar de obtener la mayor cantidad de puntos.
+	\newpage
+	\thispagestyle{fancy}
 \end{document}
