@@ -209,7 +209,10 @@ void iniciar_sesion(int partidas) {
 	jugar((RePartidas + Pjugadas), &Pjugadas, partidas);
      }
      Pjugadas -= partidas;//esta resta no da 0 si se decidio terminar antes la sesion
-     if(!Pjugadas) Pjugadas = partidas; //si la resta anterior da 0 entonces se jugaron todas las partidas esperadas
+     if(!Pjugadas){
+	getchar();//para evitar un problema a la hora de mostrar las cosas tomamos el ultimo enter ingresado
+	Pjugadas = partidas; //si la resta anterior da 0 entonces se jugaron todas las partidas esperadas
+     }
      mostrarCadaPartida(RePartidas , Pjugadas);
      //free(palabrasP);
      return;
