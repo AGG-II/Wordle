@@ -139,13 +139,13 @@ void mostrarCadaPartida(Resultado* partidas, int partidasJ) {
 	borrar_pantalla();
 	for(i = 0; i < partidasJ; i++) {//mostrar hasta que se hayan mostrado todas las partidas
 		
-		printf("Partida Nro %i\nPalabra:%s\nPuntaje:%i\n\n",i+1,(partidas + i) -> palabra,(partidas + i) -> puntaje);
-		if((partidas + i) -> puntaje > Pmax) Pmax = (partidas + i) -> puntaje;
-		if((partidas + i) -> puntaje < Pmin) Pmin = (partidas + i) -> puntaje;
-		if((partidas + i) -> acerto) {
-		prom += (partidas + i) -> puntaje;
-		Caciertos++;
-		}
+	printf("Partida Nro %i\nPalabra:%s\nPuntaje:%i\n\n",i+1,(partidas + i) -> palabra,(partidas + i) -> puntaje);
+	if((partidas + i) -> puntaje > Pmax) Pmax = (partidas + i) -> puntaje;
+	if((partidas + i) -> puntaje < Pmin) Pmin = (partidas + i) -> puntaje;
+	if((partidas + i) -> acerto) {
+	prom += (partidas + i) -> puntaje;
+	Caciertos++;
+	}
 	}
 	printf("\nPresione ENTER para continuar...");
 	while(getchar()!= '\n');

@@ -40,6 +40,65 @@
 	\item Si la letra no pertenece a la palabra entonces aparecerá el caracter "\_"
 	\end{itemize}
 	El jugador tiene un máximo de 5 intentos por cada palabra y se le asignará un puntaje en función de la cantidad de intentos, la cantidad de letras acertadas y si se logró descubrir la palabra secreta o nó, siendo el mayor puntaje posible de obtener 10000(diez mil) puntos. La meta del juego es tratar de obtener la mayor cantidad de puntos.
+	
+	\newpage
+	\thispagestyle{fancy}
+
+	\section*{Práctica C}
+	El programa consiste en tres archivos:
+	\begin{itemize}
+	\item[-]\textbf{constantes.h}\\con constantes sibólica, typedefs y estructura de datos
+	\item[-]\textbf{funciones.h}\\Archivo de cabecera con la declaración de todas las funciones empleadas
+	\item[-]\textbf{TrabajoFinal.c}\\Incluye constantes.h y funciones.h\\Define todas las funciones que implementan el juego	
+	\end{itemize}
+	Total de líneas del programa: 230
+
+	\newpage
+	\thispagestyle{fancy}
+	
+	\section*{Estructura de datos}
+	Se emplea para poder almacenar la información de cada partida un array de tipo Resultado (una estructura que contiene un arra de caracteres, dos datos de tipo numérico), para cada sesión de juego se utiliza un array bidimensional de caracteres, para mostrar el resultado de cada intento un array de caracteres y un array que alamcena la aparicion de las letras.\\
+	Las variables que se emplean son:
+	\begin{itemize}
+	\item[-]\textbf{RePartidas:} Es donde se recompilan las partidas jugadas con puntaje y la palabra jugada y es lo que se utiliza para mostrar los puntajes obtenidos.\\Los valores posibles para cada campo de las estructuras son:
+		\begin{itemize}
+		\item[•] El array que contiene la palabra
+		\item[•] El puntaje de dicha partida
+		\item[•] Un valor que puede ser 1 o 0 para representar si se ganó o no la partida
+		\end{itemize}
+	\item[-]\textbf{intento:} Es uan matriz bidimensional que almacena cada intento del jugador, en esta matriz solo se almacenan caracteres alfabéticos
+	\item[-]\textbf{evaluacion:} Es lo que se muestra para comunicarle que tan acertado fue el intento al jugador.\\Los valores posibles para cada campo del array son:
+		\begin{itemize}
+		\item[•] Un caracter 'V' que representa una letra bien colocada
+		\item[•] Un caracter '-' que representa una letra que pertenece a la palabra pero no esta bien colocada
+		\item[•] Un caracter '\_' que representa una letra que no pertenece a la palabra
+		\end{itemize}
+		Al incio se carga totalmente con el valor '\_'
+	\item[-]\textbf{comoVa:} Es un array que alamcena en cada espacio n el estado de la letra en la posción n, el array admite los siguientes valores:
+		\begin{itemize}
+		\item[•] Un caracter 'V' significa que la letra ya fue colocada correctamente
+		\item[•] Un caracter '-' significa que la letra ya aparecio pero en una posición incorrecta
+		\item[•] Un caracter '\_' significa que la letra todavía no aparecio
+		\end{itemize}
+	\end{itemize}
+
+	\newpage
+	\thispagestyle{fancy}	
+	
+	\section*{Algoritmos y funciones importantes}
+	Los pasos generales del programa	son los siguientes:
+	\begin{itemize}
+	\item[-]Preguntar cuantas partidas piensa jugar el usuario
+	\item[-]Elelgir una palabra del archivo "palabras.txt"
+	\item[-]Pedir el intento al jugador
+	\item[-]Bucle principal
+		\begin{itemize}
+		\item[-]
+		\item[-]
+		\end{itemize}
+	\end{itemize}
+	
+	
 	\newpage
 	\thispagestyle{fancy}
 \end{document}
