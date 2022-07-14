@@ -107,7 +107,6 @@ void  intentar(Resultado * resultadoP) {
 
 void jugar(Resultado* resultadoP, int *jugadas, int partidas) { 
 	*jugadas = *jugadas + 1; 
-	printf("\nLa palabra es :%s\n",resultadoP -> palabra);
 	printf("Partida numero: %d de %d \n",(*jugadas), partidas);
 	intentar(resultadoP);
 	if(*jugadas != partidas) consultar()? *jugadas:(*jugadas = ((*jugadas) + partidas));

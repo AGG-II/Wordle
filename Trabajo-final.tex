@@ -22,9 +22,12 @@
 	\section*{Documentacion de ejercicio}
 	\begin{itemize}
 		\item Objetivo\hfill 2
-		\item Práctica C\hfill ??
-		\item Algoritmos y funciones importantes\hfill ??
-		\item Compilacion y ejecucion \hfill ??
+		\item Práctica C\hfill 3
+		\item Estructura de datos\hfill 4
+		\item Algoritmos \hfill 5
+		\item Compilacion y ejecucion \hfill 6-7
+		\item Mejoras futuras \hfill 8
+		\item Opiniones sobre la materia y comentarios sobre el código \hfill 9
 	\end{itemize}
 
 	\newpage
@@ -85,20 +88,116 @@
 	\newpage
 	\thispagestyle{fancy}	
 	
-	\section*{Algoritmos y funciones importantes}
+	\section*{Algoritmos}
 	Los pasos generales del programa	son los siguientes:
 	\begin{itemize}
 	\item[-]Preguntar cuantas partidas piensa jugar el usuario
-	\item[-]Elelgir una palabra del archivo "palabras.txt"
-	\item[-]Pedir el intento al jugador
-	\item[-]Bucle principal
+	\item[-]Empieza la sesion
+	\item[-]Bucle principal		
 		\begin{itemize}
-		\item[-]
-		\item[-]
+		\item[-]Elelgir una palabra del archivo "palabras.txt"	
+		\item[-]Pedir el intento al jugador
+		\item[-]Convertir todas las letras ingresadas en mayúsculas
+		\item[-]Calcular el puntaje y marcar las letras que salieron
+		\item[-]Si acerto, muestra el mensaje y termina la partida
+		\item[-]Si no acerto y la cantidad de intentos es 5, termina la partida, en caso contrario repite 'Pedir intento"
+		\item[-]Si la cantidad de partidas jugadas es menor a la cantidad pedida por el jugador, pregunta al jugador si quiere seguir jugando
+		\item[-]Si quiere seguir jugando, suma 1 a la cantidad de partidas jugadas y repite
+		\item[-]Si no quiere seguir jugando, suma la cantidad de partidas pedidas al total de partidas jugadas
+		\item[-]Si la cantidad de partidas jugadas es mayor a la cantidad pedida termina la sesion
 		\end{itemize}
+	\item[-]Restarle a la cantidad de partidas jugadas el total de partidas que quería jugar el usuario
+	\item[-]Si la el resultado de esa resta es 0 entonces se jugó todas las que el usuario pidió y se va a mostrar esa cantidad de partidas, en caso contrario se va a mostrar el resultado de la suma
+	\item[-]Se muestran todas las partidas jugadas con el puntaje obtenido en cada una de ellas
+	\item[-]Se muestra la partida con el puntaje más alto y la partida con el puntaje más bajo
+	\item[-]Se muestra el promedio de puntajes en donde se logró una victoria
+	\item[-]Se libera la memoria utilizada	
 	\end{itemize}
-	
 	
 	\newpage
 	\thispagestyle{fancy}
+	
+	\section*{Compilación y ejecución}
+	Para compilar el programa se deben realizar las siguientes acciones:
+		\begin{enumerate}
+		\item Descomprimir en un directorio el archivo \textbf{WORDLE.zip}
+		\item Acceder al directorio generado \textbf{\# cd WORDLE}
+		\item Compile\\ \textbf{\# gcc -Wall TrabajoFinal.c -o WORDLE}
+		\item Ejecute\\ \textbf{\# ./WORDLE}		
+		\end{enumerate}
+	Ingrese la cantidad de veces que va a jugar (MAX 8 veces):\\
+	\textgreater3
+	Se van a jugar un total de 3 partidas.
+	Partida numero: 1 de 3 
+	\textgreater gatos\\
+	\textgreater \_\_\_--\\
+	\textgreater sonar\\
+	\textgreater v-\_\_\_\\
+	\textgreater sabio\\
+	\textgreater v\_\_\_v\\
+	\textgreater bueno\\
+	\textgreater \_vv\_v\\
+	\textgreater suelo\\
+	\textgreater vvvvv\\	
+	\\Acerto!!!\\
+	Seguir jugando?(Y/N)\\ 
+	\textgreater Y\\
+	Partida numero: 2 de 3 
+	\textgreater gotas\\
+	\textgreater vvvvv\\	
+	Acerto!!!\\
+	Seguir jugando?(Y/N)\\
+	\textgreater N\\ \\
+	Partida Nro 1\\
+	Palabra:SUELO\\
+	Puntaje:5600\\
+
+	Partida Nro 2\\
+	Palabra:GOTAS\\
+	Puntaje:10000\\
+
+
+	Presione ENTER para continuar...
+
+	\newpage
+	\thispagestyle{fancy}
+	
+	La/s mejor/es partida/s:\\
+	Partida Nro 2\\
+	Palabra:GOTAS\\
+	Puntaje:10000\\
+
+	La/s peor/es partida/s:\\
+	Partida Nro 1\\
+	Palabra:SUELO\\
+	Puntaje:5600\\
+
+	El puntaje promedio de las partidas ganadas es 7800.00\\
+	Presione ENTER para finalizar.\\
+	
+	En este ejemplo el ususario adivinó dos palabras y decidió no continuar jugando
+	
+	\newpage
+	\thispagestyle{fancy}
+	
+	\section*{Mejoras futuras}
+	En esta sección haré algunas propuestas que podrían mejorar la experiencia del usuario.
+	\begin{itemize}
+	\item Se podría hacer uso de memoria dinámica para poder aumentar la cantidad de jugadas posibles
+	\item Se podría mejorar la interfaz gráfica
+	\item Añadir un archivo que guarde las mejores sesiones de todos los tiempos para poder hacer un ranking
+	\end{itemize}
+	
+	\newpage
+	\thispagestyle{fancy}
+	
+	\section*{Opiniones sobre la materia y comentarios sobre el código}
+	Quisiera hacer un par de comentarios al respecto al desarrollo del trabajo práctico y mi opinión sobre la materia.\\
+	Sobre la materia en sí no tengo nigún tipo de queja en particular  ya que el nivel de los contenidos y la explicaciones que se fueron dadno sobre los mismos no inpidió en ningún momento la posibilidad de aprender.\\
+	Una cosa que quiero agradecer es la decisión de tomar un trabajo práctico en lugar de únicamente un examen para evaluar la materia ya que no solo me resulta más 	comodo, si no que me permite siempre poder indagar más a la hora de realizar el código y hacer cosas que me resulten más prolijas, interesante y en general mejores.\\
+	Con respecto al trabajo práctico me resultó muy aportativo para poder comenzar a utilizar herramientas que venia hace tiempo queriendo usar y que por falta de un proyecto y motivación no había utilizado hasta ahora. Siendo estas herramientas: Debian (lo instalé en una notebook que tenía sin usar hace mucho tiempo por ser obsoleta), VIM el editor de texto para programar, git (en este caso github) y LaTex (herramienta con la que estoy escribiendo este informe).\\
+	Quiero aclarar que cualquier tilde que se me haya olvidado hacer es porque el teclado que utilizo no me deja hacerlas comodamente por lo que hubo veces en las que las dejé para otro momento y me olvidé de colocarlas/
+	
+	\newpage
+	\thispagestyle{fancy}	
 \end{document}
