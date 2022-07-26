@@ -10,7 +10,7 @@
 
 //esta macro permite determinar si el sistema operativo tiene acceso a la libreria unistd.h y por lo tanto tiene acceso
 //a la funcion getpid() y si para poder limpiar la pantalla es necesario utilizar 'cls' en vez de 'clear'
-#if defined(__CYGWIN__) || defined(_WIN32) || defined(_WIN64)
+#if defined(_WIN32) || defined(_WIN64)
 	#include <time.h>
 	#define borrar_pantalla() system("cls")
 	#define gsemilla() time(NULL)
